@@ -1,0 +1,234 @@
+/* ══════════════════════════════════════════
+   La Selección: Álbum Oficial — styles.css
+   ══════════════════════════════════════════ */
+
+/* ── Core Layout ── */
+.card-ratio { aspect-ratio: 2/3; }
+.glass-sidebar { backdrop-filter: blur(12px); }
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* ── Bandera española CSS (3 franjas: rojo / amarillo / rojo) ── */
+.esp-flag {
+  display: inline-block;
+  width: 38px;
+  height: 26px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+  background: linear-gradient(
+    to bottom,
+    #c60b1e 0%,   #c60b1e 25%,
+    #ffc400 25%,  #ffc400 75%,
+    #c60b1e 75%,  #c60b1e 100%
+  );
+}
+/* Variante pequeña para la nav sticky */
+.esp-flag--sm {
+  width: 28px;
+  height: 19px;
+  border-radius: 3px;
+}
+
+/* ── Card State Visuals ── */
+.card-missing {
+  background: linear-gradient(135deg, #dde0e3 0%, #c8ccd0 100%);
+  border: 2px dashed #b0b8c1;
+  opacity: 0.45;
+}
+.card-owned {
+  background: linear-gradient(135deg, #cc0008 0%, #8b0000 100%);
+  border: 2px solid #E30613;
+  box-shadow: 0 4px 14px rgba(179, 0, 11, 0.35);
+}
+.card-repeated {
+  background: linear-gradient(135deg, #d4a840 0%, #8B6914 100%);
+  border: 2px solid #C5A059;
+  box-shadow: 0 0 18px rgba(197, 160, 89, 0.5);
+}
+
+/* ── Card Hover Animations ── */
+.album-card {
+  transition: transform 0.2s cubic-bezier(.34, 1.56, .64, 1), box-shadow 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+.album-card:hover:not(.card-missing) {
+  transform: scale(1.07) translateY(-3px);
+  z-index: 20;
+}
+.album-card:active:not(.card-missing) {
+  transform: scale(0.97);
+}
+
+/* ── Minus Button ── */
+.minus-btn {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(186, 26, 26, 0.92);
+  color: white;
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  z-index: 30;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  /* Área de toque ampliada para móvil */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.album-card:hover .minus-btn { opacity: 1; }
+
+/* En móvil (dispositivos táctiles sin hover real):
+   el botón − se muestra siempre, más grande */
+@media (hover: none) {
+  .minus-btn {
+    opacity: 1;
+    width: 28px;
+    height: 28px;
+    font-size: 20px;
+    background: rgba(186, 26, 26, 0.85);
+    /* Sombra para separarlo visualmente de la carta */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  }
+}
+
+/* ── Repeat Badge ── */
+.repeat-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #C5A059;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 999px;
+  z-index: 25;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* ── Hide Scrollbar ── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Toast Notification ── */
+#toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #1a1a2e;
+  color: white;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 9999;
+  white-space: nowrap;
+}
+#toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── Quick Add Input — hide spinners ── */
+#quick-add-input {
+  -moz-appearance: textfield;
+}
+#quick-add-input::-webkit-inner-spin-button,
+#quick-add-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ── Progress Bar Animation ── */
+#progress-bar { transition: width 0.5s cubic-bezier(.4, 0, .2, 1); }
+
+/* ── Hero Header ── */
+.hero-header {
+  background: linear-gradient(135deg, #b5000b 0%, #8b0000 45%, #1a0a00 100%);
+  position: relative;
+  overflow: hidden;
+}
+.hero-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ── Sidebar: disable sticky on mobile ── */
+@media (max-width: 1023px) {
+  .sidebar-sticky { position: static !important; }
+}
+
+/* ── Card Number Label ── */
+.card-num {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  line-height: 1;
+  pointer-events: none;
+}
+.card-missing .card-num { color: #5a6475; }
+.card-owned .card-num,
+.card-repeated .card-num {
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Card Icon ── */
+.card-icon {
+  font-size: 32px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+.card-owned .card-icon    { color: rgba(255, 255, 255, 0.8); }
+.card-repeated .card-icon { color: rgba(255, 255, 255, 0.8); }
+
+/* ── Card Pop Animation ── */
+@keyframes card-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.13); }
+  70%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+.card-pop { animation: card-pop 0.35s cubic-bezier(.34, 1.56, .64, 1); }
+
+/* ── Bottom Nav activo ── */
+html { scroll-behavior: smooth; }
+
+.bottom-nav-link {
+  color: #5e3f3b;
+  opacity: 0.65;
+  transition: color 0.18s ease, opacity 0.18s ease, transform 0.18s ease;
+}
+.bottom-nav-link.active {
+  color: #b5000b;
+  opacity: 1;
+  transform: scale(1.12);
+}
+.bottom-nav-link.active .material-symbols-outlined {
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+}
